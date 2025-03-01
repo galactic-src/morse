@@ -1,6 +1,6 @@
 # Bletchley Park - Morse Code Signs
 
-I recently went to the [Bletchley Park Museum](https://bletchleypark.org.uk/) and noticed several signs with some kind of morse code looking patterns.
+We recently went to the [Bletchley Park Museum](https://bletchleypark.org.uk/) on a work trip, and noticed several signs with some kind of morse code looking patterns.
 However, the dots and dashes didn't have spaces between, so you couldn't really interpret it.
 
 ![Veterans' stories sign at Bletchley Park](readmeMedia/bletchley3.jpg?raw=true "Title")
@@ -9,11 +9,11 @@ However, the dots and dashes didn't have spaces between, so you couldn't really 
 
 ![Hut 11 sign at Bletchley Park](readmeMedia/bletchley1.jpg?raw=true "Title")
 
-My guide informed me it was most likely marketing nonsense, but to take a look at [HMGCC](https://www.hmgcc.gov.uk/).
+Our guide informed me it was most likely marketing nonsense, but to take a look at [HMGCC](https://www.hmgcc.gov.uk/).
 
 Still, I wondered if there might be a hidden message, so whipped this up to check!
 
-## What it does
+## What this program does
 
 It (not very elegantly, really) parses all the possible ways you could interpret a string of dots and dashes into Morse Code characters.
 
