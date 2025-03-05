@@ -5,7 +5,7 @@ import jm.Words.WORDS
 fun main() {
     val veteransStoriesSign = "-..--.-...--.-...--.-.-..--.-"
     // 89083720 translations, 804 readings
-    // net cut lan tenant
+    // net cut LAN tenant
     // tea treated war ant
 
     val veteransStoriesSignReversed = veteransStoriesSign.reversed()
@@ -26,9 +26,9 @@ fun main() {
     // val hut11Sign = "-....-...--.-.....-...-.--.--..-.-.-.-"
     // val hut11SignReversed = hut11Sign.reversed()
 
-    val readings = MorseInfer(WORDS.wordList).infer(veteransStoriesSign)
+    val readings = MorseInfer(WORDS.wordList).infer(veteransStoriesSignReversed)
 
-    println(readings.joinToString("\n"))
+    println(readings.map{ it.joinToString( " ")}.joinToString("\n"))
 
     println("\n\nTotal ${readings.size} readings")
 }

@@ -13,6 +13,8 @@ It (not very elegantly, really) parses all the possible ways you could interpret
 
 It then uses a word list to break the resulting jumble of letters into recognised words (and or numbers).
 
+If any numbers that are commonly substituted with letters are found, it will try finding words with and without substitution.
+
 It's pretty slow and resource-hungry, and it comes up with loads of nonsense!
 
 ## Results
@@ -31,10 +33,9 @@ The Hut 11 sign, being 9 Morse characters longer than the others, is especially 
 
 ## Extensions
 
-- try replacing numbers with common letter substitutions (s3cr37s).
-- use a trie to check whether any words have a given string of letters as a prefix, to throw nonsensee out earlier (not many words begin `ttt`).
 - group the outputs by number of words, and really eyeball the first couple of categories
-- feed it to a ML model and eyeball those that make highest grammatical sense
+- use a trie to check whether any words have a given string of letters as a prefix, to throw nonsense out earlier (not many words begin `ttt`).
+- feed it to an ML model and eyeball those that make highest grammatical sense
 
 ## Acknowledgements
 

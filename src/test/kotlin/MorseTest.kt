@@ -1,10 +1,13 @@
 import io.kotlintest.matchers.collections.shouldContain
+import io.kotlintest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotlintest.shouldBe
 import jm.MORSE_DECODE
 import jm.MorseInfer
 import org.junit.jupiter.api.Test
 
 val MORSE_ENCODE = MORSE_DECODE.entries.associate { (morse, c) -> c[0] to morse }
+
+fun morse(text: String): String = text.map { MORSE_ENCODE[it] }.joinToString("")
 
 class MorseTest {
     @Test
@@ -25,28 +28,28 @@ class MorseTest {
     fun `finds very short word`() {
         val notBadMorse = "at".map { MORSE_ENCODE[it] }.joinToString("")
         val result = MorseInfer(setOf("at")).infer(notBadMorse)
-        result shouldBe listOf("at")
+        result shouldBe listOf(listOf("at"))
     }
 
     @Test
     fun `finds words`() {
         val notBadMorse = "notbad".map { MORSE_ENCODE[it] }.joinToString("")
         val result = MorseInfer(setOf("not", "bad")).infer(notBadMorse)
-        result shouldBe listOf("not bad")
+        result shouldBe listOf(listOf("not", "bad"))
     }
 
     @Test
     fun `finds numbers`() {
         val numberMorse = "12".map { MORSE_ENCODE[it] }.joinToString ("")
         val result = MorseInfer(setOf()).infer(numberMorse)
-        result shouldBe listOf("1 2")
+        result shouldBe listOf(listOf("1", "2"))
     }
 
     @Test
     fun `finds words and numbers`() {
         val mixMorse = "it3does".map { MORSE_ENCODE[it] }.joinToString ("")
         val result = MorseInfer(setOf("it", "does")).infer(mixMorse)
-        result shouldBe listOf("it 3 does")
+        result shouldBe listOf(listOf("it", "3", "does"))
     }
 
     @Test
@@ -57,8 +60,17 @@ class MorseTest {
 
     @Test
     fun `gives up if remainder doesn't match anything`() {
-        val m = "abc".map { MORSE_ENCODE[it] }.joinToString ("")
-        val result = MorseInfer(setOf("ab")).infer(m)
+        val m = morse("abc")
+        val words = setOf("ab")
+        val result = MorseInfer(words).infer(m)
         result shouldBe listOf()
+    }
+
+    @Test
+    fun `generates numeric substitutions`() {
+        val m = morse("can3")
+        val words = setOf("can", "cane")
+        val result = MorseInfer(words).infer(m)
+        result shouldContainExactlyInAnyOrder listOf(listOf("can", "3"), listOf("cane"))
     }
 }

@@ -1,5 +1,16 @@
 package jm
 
+val COMMON_NUMERIC_SUBS = mapOf(
+    '0' to 'o',
+    '1' to 'i',
+    '3' to 'e',
+    '4' to 'a',
+    '5' to 's',
+    '6' to 'g',
+    '7' to 't',
+    '8' to 'b',
+)
+
 class MorseInfer(private val words: Set<String>, private val debug: Boolean = false) {
     fun debugLog(message: Any) {
         if (debug) {
@@ -7,13 +18,35 @@ class MorseInfer(private val words: Set<String>, private val debug: Boolean = fa
         }
     }
 
-    fun infer(input: String): List<String> {
+    fun infer(input: String): List<List<String>> {
         debugLog("inferring for $input")
         val translations = morseTranslate(input)
         debugLog(translations)
         println("inferred ${translations.size} translations")
-        val readings = translations.flatMap(::textSplit)
-        return readings.map{ it.joinToString( " ")}
+        val extendedTranslations = translations.flatMap(::generateNumericVariants)
+        val readings = extendedTranslations.flatMap(::textSplit)
+
+        return readings
+    }
+
+    fun generateNumericVariants(text: String): List<String> {
+        val characterLists = mutableListOf<MutableList<Char>>(mutableListOf())
+        for (c in text) {
+            val sub = COMMON_NUMERIC_SUBS[c]
+            val subbedEntries =
+                if (sub != null) {
+                    characterLists.map {chars -> chars.toMutableList().also { it.add(sub)} }
+                } else {
+                    listOf()
+                }
+
+            characterLists.forEach {
+                it.add(c)
+            }
+
+            characterLists.addAll(subbedEntries)
+        }
+        return characterLists.map { it.joinToString ( "" ) }
     }
 
     fun textSplit(text: String): List<List<String>> {
@@ -47,12 +80,6 @@ class MorseInfer(private val words: Set<String>, private val debug: Boolean = fa
     }
 
     fun isWord(s: String): Boolean = s.length > 1 && words.contains(s)
-
-    fun findLeadingWords(s: String): List<String> =
-        (1..s.length).mapNotNull {
-            val subs = s.substring(0, it)
-            if (isWord(subs)) { subs } else { null }
-        }
 
     fun morseTranslate(input: String): List<String> {
         if (input == "") {
