@@ -33,7 +33,6 @@ The Hut 11 sign, being 9 Morse characters longer than the others, is especially 
 
 ## Extensions
 
-- group the outputs by number of words, and really eyeball the first couple of categories
 - use a trie to check whether any words have a given string of letters as a prefix, to throw nonsense out earlier (not many words begin `ttt`).
 - feed it to an ML model and eyeball those that make highest grammatical sense
 
