@@ -1,37 +1,39 @@
 package jm
 
-import jm.Words.WORDS
+const val VETERANS_STORIES_SIGN = "-..--.-...--.-...--.-.-..--.-"
+// 89083720 translations, 804 readings
+// net cut LAN tenant
+// tea treated war ant
+// net treated war wet
+
+val VETERANS_STORIES_SIGN_REVERSED = VETERANS_STORIES_SIGN.reversed()
+// 92109406 translations, 848 readings
+// year 7 knit pet
+// year 7 knee tax
+// tan arg in geek tea
+// shortest: twin knit permit
+
+const val INDIVIDUALS_SIGN = "-.-...--.-.-..--.-...--.-...-"
+// 92254896 translations, 704 readings
+// keep text tree menu
+// cute cat as gnu
+// cute trace wav
+// trunk UK East
+
+val INDIVIDUALS_SIGN_REVERSED = INDIVIDUALS_SIGN.reversed()
+// 85584941 translations, 325 readings
+// bye item ur geek
+// tie knitwear geek
+
+const val HUT_11_SIGN = "-....-...--.-......-...-.--.--..-.-.-.-"
+// "bletchley park"
+
+val HUT_11_SIGN_REVERSED = HUT_11_SIGN.reversed()
+// 1301615 readings,
+// CNN wants bin guest
 
 fun main() {
-    val veteransStoriesSign = "-..--.-...--.-...--.-.-..--.-"
-    // 89083720 translations, 804 readings
-    // net cut LAN tenant
-    // tea treated war ant
-    // net treated war wet
-
-    val veteransStoriesSignReversed = veteransStoriesSign.reversed()
-    // 92109406 translations, 848 readings
-    // year 7 knit pet
-    // year 7 knee tax
-    // tan arg in geek tea
-    // shortest: twin knit permit
-
-    val individualsSign = "-.-...--.-.-..--.-...--.-...-"
-    // 92254896 translations, 704 readings
-    // keep text tree menu
-    // cute cat as gnu
-    // cute trace wav
-    // trunk UK East
-
-    val individualsSignReversed = individualsSign.reversed()
-    // 85584941 translations, 325 readings
-    // bye item ur geek
-
-    // This one ate the heap even with 32GB to play with
-    // val hut11Sign = "-....-...--.-.....-...-.--.--..-.-.-.-"
-    // val hut11SignReversed = hut11Sign.reversed()
-
-    val readings = MorseInfer(WORDS.wordList).infer(individualsSignReversed)
+    val readings = MorseInfer2(WORDS.wordList).infer(HUT_11_SIGN)
 
     println(readings.map{ it.joinToString( " ")}.joinToString("\n"))
 

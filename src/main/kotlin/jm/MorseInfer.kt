@@ -1,17 +1,8 @@
 package jm
 
-val COMMON_NUMERIC_SUBS = mapOf(
-    '0' to 'o',
-    '1' to 'i',
-    '3' to 'e',
-    '4' to 'a',
-    '5' to 's',
-    '6' to 'g',
-    '7' to 't',
-    '8' to 'b',
-)
-
 class MorseInfer(private val words: Set<String>, private val debug: Boolean = false) {
+    private val checker: TranslationEndChecker = TranslationEndChecker().also { it.addAll(words) }
+
     fun debugLog(message: Any) {
         if (debug) {
             println(message)
@@ -23,8 +14,8 @@ class MorseInfer(private val words: Set<String>, private val debug: Boolean = fa
         val translations = morseTranslate(input)
         debugLog(translations)
         println("inferred ${translations.size} translations")
-        val extendedTranslations = translations.flatMap(::generateNumericVariants)
-        val readings = extendedTranslations.flatMap(::textSplit)
+
+        val readings = translations.flatMap(::textSplit)
 
         return readings
     }
@@ -66,7 +57,7 @@ class MorseInfer(private val words: Set<String>, private val debug: Boolean = fa
             (1..(text.length)).mapNotNull {
                 val subs = text.substring(0, it)
                 debugLog("subs $subs")
-                if (isWord(subs)) {
+                if (words.contains(subs)) {
                     val remainder = text.substring(it)
                     debugLog("word '$subs' remainder '$remainder'")
                     results.addAll(textSplit(remainder).map { result ->
@@ -78,8 +69,6 @@ class MorseInfer(private val words: Set<String>, private val debug: Boolean = fa
             return results//.also(::println)
         }
     }
-
-    fun isWord(s: String): Boolean = s.length > 1 && words.contains(s)
 
     fun morseTranslate(input: String): List<String> {
         if (input == "") {
@@ -100,6 +89,9 @@ class MorseInfer(private val words: Set<String>, private val debug: Boolean = fa
                 }
             } else { null }
         }
-        return results
+
+        val resultsWithVariants = results.flatMap(::generateNumericVariants)
+
+        return resultsWithVariants.filter{ it.length > CHECKER_DEPTH || checker.endsWithWordEnd(it) }
     }
 }

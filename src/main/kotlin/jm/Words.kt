@@ -1,6 +1,7 @@
 package jm
 
 val excludes = setOf(
+    "b", "c", "d", "e", "f", "g", "h", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
     "aa",
     "ab",
     "ac",
@@ -405,8 +406,8 @@ val othersToRemove = setOf("nat", "titten", "cunt", "mas", "mai", "tri", "med", 
 
 val toAdd = setOf("alan", "turing", "bletchley", "park", "com", "org", "co", "uk")
 
-class Words {
-    companion object WORDS {
-        val wordList = javaClass.getResource("/words.txt")?.let { it.readText().split('\n').toSet() - excludes - othersToRemove + toAdd} ?: throw Error("couldn't find word list")
-    }
+val numbers = setOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+
+object WORDS {
+    val wordList = javaClass.getResource("/words.txt")?.let { it.readText().split('\n').toSet() + numbers + toAdd - (excludes + othersToRemove) } ?: throw Error("couldn't find word list")
 }

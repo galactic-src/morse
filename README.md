@@ -7,7 +7,10 @@ My guide informed me it was most likely marketing nonsense, but to take a look a
 
 Still, I wondered if there might be a hidden message, so whipped this up to check!
 
+
 ## What it does
+
+### MorseInfer
 
 It (not very elegantly, really) parses all the possible ways you could interpret a string of dots and dashes into Morse Code characters.
 
@@ -17,24 +20,36 @@ If any numbers that are commonly substituted with letters are found, it will try
 
 It's pretty slow and resource-hungry, and it comes up with loads of nonsense!
 
+
+### MorseInfer2
+
+Disappointed at the Hut 11 sign consuming the entire stack (not to mention taking minutes to run) I thought about optimisations.
+
+This is a far more efficient route to translation:
+- for every word in the list, generate the Morse code
+- compile this into a trie structure, including all words as they terminate
+- walk the trie, identifying every point that a word ends, and capturing those words as you go
+- discard word lists whenever no word is possible
+- store a result if the end of a word coincides with the end of the input
+
+The code runs way faster and uses less heap.
+The code is harder to understand though.
+It is also more difficult to do numeric substitution when tackling the problem this way.
+
+
 ## Results
 
-I didn't find anything convincing encoded - the sheer number of ways to interpret the Morse Code was surprising!
-There were far too many to go through carefully, but they mostly only started with a few different words, none of them all that intriguing.
-Occasionally you see words like "war" or "geek".
+Having initially missed a dot in the hut 11 sign, once rectified, it translates to "Bletchley Park".
 
-You mostly get a pile of quite short words that don't make grammatical sense.
+I haven't noticed a clear winner for the others - perhaps they include words outside of the word list, like a surname.
 
-Sometimes a couple of words might seem associated (tea tree, year 7). Letters like E (`.`) and T (`-`) obviously crop up randomly more often than say 5 (`.....`).
+The sheer number of ways to interpret the Morse Code was surprising! There were far too many to go through carefully, but they mostly only started with a few different words, none of them all that intriguing.
+Occasionally you see words like "war" or "geek". You mostly get a pile of quite short words that don't make grammatical sense.
 
+Sometimes a couple of words might seem associated (tea tree, year 7).
+Letters like E (`.`) and T (`-`) obviously crop up randomly more often than say 5 (`.....`).
 Some of the interpretations made me smile - I jotted a few down in Main.kt.
 
-The Hut 11 sign, being 9 Morse characters longer than the others, is especially greedy on the Heap Space - it didn't even generate translations. Optimisation required! 
-
-## Extensions
-
-- use a trie to check whether any words have a given string of letters as a prefix, to throw nonsense out earlier (not many words begin `ttt`).
-- feed it to an ML model and eyeball those that make highest grammatical sense
 
 ## Acknowledgements
 

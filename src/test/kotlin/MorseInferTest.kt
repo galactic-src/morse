@@ -2,14 +2,12 @@ import io.kotlintest.matchers.collections.shouldContain
 import io.kotlintest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotlintest.shouldBe
 import jm.MORSE_DECODE
+import jm.MORSE_ENCODE
+import jm.morse
 import jm.MorseInfer
 import org.junit.jupiter.api.Test
 
-val MORSE_ENCODE = MORSE_DECODE.entries.associate { (morse, c) -> c[0] to morse }
-
-fun morse(text: String): String = text.map { MORSE_ENCODE[it] }.joinToString("")
-
-class MorseTest {
+class MorseInferTest {
     @Test
     fun `all morse codes consists of dots and dashes only`() {
         MORSE_DECODE.keys.forEach { k ->
@@ -34,7 +32,7 @@ class MorseTest {
     @Test
     fun `finds words`() {
         val notBadMorse = "notbad".map { MORSE_ENCODE[it] }.joinToString("")
-        val result = MorseInfer(setOf("not", "bad")).infer(notBadMorse)
+        val result = MorseInfer(setOf("not", "bad"), true).infer(notBadMorse)
         result shouldBe listOf(listOf("not", "bad"))
     }
 
